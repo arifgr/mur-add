@@ -62,6 +62,7 @@ export const assets = {
   bottom_banner_image_sm,
   add_address_image,
   box_icon,
+  speaker_audio_system
 };
 
 export const categories = [

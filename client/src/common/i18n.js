@@ -13,6 +13,8 @@ i18n
           "banner-header": "The best prices electronics",
           "shop-now": "Shop Now",
           "explore-deals": "Explore Deals",
+          "speaker-audio-system": "Speaker Audio System",
+          categories: "Categories",
         },
       },
       tr: {
@@ -21,6 +23,8 @@ i18n
           "banner-header": "En iyi fiyatlı elektronik ürünler",
           "shop-now": "Şimdi Alışveriş Yap",
           "explore-deals": "Fırsatları Keşfet",
+          "speaker-audio-system": "Hoparlör Ses Sistemi",
+          categories: "Kategoriler",
         },
       },
     },
