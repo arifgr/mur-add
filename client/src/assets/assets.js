@@ -20,8 +20,6 @@ import box_icon from "./box_icon.svg";
 import trust_icon from "./trust_icon.svg";
 import black_arrow_icon from "./black_arrow_icon.svg";
 import white_arrow_icon from "./white_arrow_icon.svg";
-import main_banner_bg from "./main_banner_bg.png";
-import main_banner_bg_sm from "./main_banner_bg_sm.png";
 import bottom_banner_image from "./bottom_banner_image.png";
 import bottom_banner_image_sm from "./bottom_banner_image_sm.png";
 import add_address_image from "./add_address_image.svg";
@@ -33,6 +31,8 @@ import music_sound_volume from "./3250075_electronics_music_sound_volume_icon.pn
 import microphone_sound_speak from "./3428083_mic_microphone_sound_speak_icon.png";
 import headphones from "./8683410_headphones_music_multimedia_electronics_audio_icon.png";
 import speaker_audio_system from "./11902097_speaker_audio_system_music_and_icon.png";
+import main_banner_bg from "./banner-horizontal.png";
+import main_banner_ver_bg from "./banner-vertical.png";
 
 export const assets = {
   logo,
@@ -57,7 +57,7 @@ export const assets = {
   black_arrow_icon,
   white_arrow_icon,
   main_banner_bg,
-  main_banner_bg_sm,
+  main_banner_ver_bg,
   bottom_banner_image,
   bottom_banner_image_sm,
   add_address_image,
