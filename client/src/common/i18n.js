@@ -15,6 +15,13 @@ i18n
           "explore-deals": "Explore Deals",
           "speaker-audio-system": "Speaker Audio System",
           categories: "Categories",
+          newsletter: {
+            title: "Never Miss a Deal!",
+            description:
+              "Subscribe to get the latest offers, new arrivals, and exclusive discounts",
+          },
+          "subscribe-now": "Subscribe",
+          "newsletter.placeholder": "Enter your email id",
         },
       },
       tr: {
@@ -25,6 +32,13 @@ i18n
           "explore-deals": "Fırsatları Keşfet",
           "speaker-audio-system": "Hoparlör Ses Sistemi",
           categories: "Kategoriler",
+          newsletter: {
+            title: "Teklifleri Kaçırmayın!",
+            description:
+              "En son teklifler, yeni gelenler ve özel indirimler için abone olun",
+          },
+          "subscribe-now": "Abone Ol",
+          "newsletter.placeholder": "E-posta adresinizi girin",
         },
       },
     },
