@@ -22,6 +22,10 @@ i18n
           },
           "subscribe-now": "Subscribe",
           "newsletter.placeholder": "Enter your email id",
+          footer: {
+            description:
+              "We deliver high technology sound systems straight to your door. Trusted by thousands, we aim to make your shopping experience simple and affordable.",
+          },
         },
       },
       tr: {
@@ -39,6 +43,10 @@ i18n
           },
           "subscribe-now": "Abone Ol",
           "newsletter.placeholder": "E-posta adresinizi girin",
+          footer: {
+            description:
+              "Yüksek teknoloji ses sistemlerini kapınıza kadar getiriyoruz. Binlerce kişi tarafından güvenilen, alışveriş deneyiminizi basit ve uygun fiyatlı hale getirmeyi hedefliyoruz.",
+          },
         },
       },
     },

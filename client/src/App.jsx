@@ -1,5 +1,6 @@
 import React from "react";
 import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 import { Route, Routes, useLocation } from "react-router-dom";
 import Home from "./pages/Home";
 import "./common/i18n";
@@ -18,6 +19,7 @@ const App = () => {
           <Route path="/" element={<Home />} />
         </Routes>
       </div>
+      {isSellerPath ? null : <Footer />}
     </div>
   );
 };
