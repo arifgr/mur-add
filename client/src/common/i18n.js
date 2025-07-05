@@ -31,6 +31,8 @@ i18n
             allProducts: "All Products",
             contact: "Contact",
           },
+          "No products found in this category.":
+            "No products found in this category.",
         },
       },
       tr: {
@@ -57,6 +59,8 @@ i18n
             allProducts: "Tüm Ürünler",
             contact: "İletişim",
           },
+          "No products found in this category.":
+            "Bu kategoride ürün bulunamadı.",
         },
       },
     },
