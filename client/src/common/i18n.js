@@ -34,6 +34,16 @@ i18n
           "No products found in this category.":
             "No products found in this category.",
         },
+        Add: "Add",
+        "inclusive of all taxes": "inclusive of all taxes",
+        "About Product": "About Product",
+        "add to cart": "Add to Cart",
+        "buy now": "Buy Now",
+        "product details": "Product Details",
+        "related products": "Related Products",
+        "view all products": "View All Products",
+        "product not found": "Product Not Found",
+        "See more": "See more",
       },
       tr: {
         translation: {
@@ -62,6 +72,14 @@ i18n
           "No products found in this category.":
             "Bu kategoride ürün bulunamadı.",
         },
+        Add: "Ekle",
+        "inclusive of all taxes": "tüm vergiler dahil",
+        "About Product": "Ürün Hakkında",
+        "add to cart": "Sepete Ekle",
+        "buy now": "Şimdi Al",
+        "product details": "Ürün Detayları",
+        "related products": "İlgili Ürünler",
+        "see more": "Daha Fazla Gör",
       },
     },
     fallbackLng: "en",
