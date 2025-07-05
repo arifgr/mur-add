@@ -26,6 +26,11 @@ i18n
             description:
               "We deliver high technology sound systems straight to your door. Trusted by thousands, we aim to make your shopping experience simple and affordable.",
           },
+          navbar: {
+            home: "Home",
+            allProducts: "All Products",
+            contact: "Contact",
+          },
         },
       },
       tr: {
@@ -46,6 +51,11 @@ i18n
           footer: {
             description:
               "Yüksek teknoloji ses sistemlerini kapınıza kadar getiriyoruz. Binlerce kişi tarafından güvenilen, alışveriş deneyiminizi basit ve uygun fiyatlı hale getirmeyi hedefliyoruz.",
+          },
+          navbar: {
+            home: "Anasayfa",
+            allProducts: "Tüm Ürünler",
+            contact: "İletişim",
           },
         },
       },
