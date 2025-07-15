@@ -123,6 +123,13 @@ i18n
               logout: "Logout",
             },
           },
+          sellerProductList: {
+            allProducts: "All Products",
+            product: "Product",
+            category: "Category",
+            sellingPrice: "Selling Price",
+            inStock: "In Stock",
+          },
         },
       },
       tr: {
@@ -227,6 +234,24 @@ i18n
             typeHere: "Buraya yazın",
             selectCategory: "Kategori Seçin",
             add: "Ekle",
+          },
+          sellerLayout: {
+            sidebar: {
+              addProduct: "Ürün Ekle",
+              productList: "Ürün Listesi",
+              orders: "Siparişler",
+            },
+            navbar: {
+              hiAdmin: "Merhaba! Yönetici",
+              logout: "Çıkış Yap",
+            },
+          },
+          sellerProductList: {
+            allProducts: "Tüm Ürünler",
+            product: "Ürün",
+            category: "Kategori",
+            sellingPrice: "Satış Fiyatı",
+            inStock: "Stokta",
           },
         },
       },
