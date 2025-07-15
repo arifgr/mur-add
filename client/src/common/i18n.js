@@ -111,7 +111,18 @@ i18n
             image: "Product Image",
             selectCategory: "Select Category",
             add: "Add",
-          }
+          },
+          sellerLayout: {
+            sidebar: {
+              addProduct: "Add Product",
+              productList: "Product List",
+              orders: "Orders",
+            },
+            navbar: {
+              hiAdmin: "Hi! Admin",
+              logout: "Logout",
+            },
+          },
         },
       },
       tr: {
