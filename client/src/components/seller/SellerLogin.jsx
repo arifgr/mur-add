@@ -12,7 +12,7 @@ const SellerLogin = () => {
   const onSubmitHandler = async (event) => {
     try {
       event.preventDefault();
-      /* const { data } = await axios.post("/api/seller/login", {
+      const { data } = await axios.post("/api/seller/login", {
         email,
         password,
       });
@@ -21,7 +21,7 @@ const SellerLogin = () => {
         navigate("/seller");
       } else {
         toast.error(data.message);
-      } */
+      }
       setIsSeller(true); // Simulating successful login for now
     } catch (error) {
       toast.error(error.message);

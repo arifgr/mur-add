@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import "./common/i18n";
 import { Toaster } from "react-hot-toast";
 import { useAppContext } from "./context/AppContext";
+import Login from "./components/Login";
 import AllProducts from "./pages/AllProducts";
 import ProductCategory from "./pages/ProductCategory";
 import ProductDetails from "./pages/ProductDetails";
@@ -23,7 +24,7 @@ const App = () => {
   return (
     <div className="text-default min-h-screen text-gray-700 bg-white">
       {isSellerPath ? null : <Navbar />}
-      {/* {showUserLogin ? <Login /> : null} */}
+      {showUserLogin ? <Login /> : null}
       <Toaster />
       <div
         className={`${isSellerPath ? "" : "px-6 md:px-16 lg:px-24 xl:px-34"}`}
