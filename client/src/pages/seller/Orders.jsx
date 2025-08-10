@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useAppContext } from "../../context/AppContext";
-import { assets, dummyOrders } from "../../assets/assets";
+import { assets } from "../../assets/assets";
 import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 
@@ -18,7 +18,6 @@ const Orders = () => {
         toast.error(data.message);
       }
     } catch (error) {
-      setOrders(dummyOrders);
       toast.error(error.message);
     }
   };

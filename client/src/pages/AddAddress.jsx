@@ -45,7 +45,7 @@ const AddAddress = () => {
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
-    /* try {
+    try {
       const { data } = await axios.post("/api/address/add", { address });
 
       if (data.success) {
@@ -56,14 +56,14 @@ const AddAddress = () => {
       }
     } catch (error) {
       toast.error(error.message);
-    } */
+    }
   };
 
-  /* useEffect(() => {
+  useEffect(() => {
     if (!user) {
       navigate("/cart");
     }
-  }, []); */
+  }, []);
 
   return (
     <div className="mt-16 pb-16">

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useAppContext } from "../context/AppContext";
-import { dummyOrders } from "../assets/assets";
 import { useTranslation } from "react-i18next";
 const MyOrders = () => {
   const { t } = useTranslation();
@@ -8,21 +7,20 @@ const MyOrders = () => {
   const { currency, axios, user } = useAppContext();
 
   const fetchMyOrders = async () => {
-    /*  try {
+    try {
       const { data } = await axios.get("/api/order/user");
       if (data.success) {
         setMyOrders(data.orders);
       }
     } catch (error) {
       console.log(error);
-    } */
-    setMyOrders(dummyOrders); // Using dummy data for now
+    }
   };
 
   useEffect(() => {
-    /* if (user) {
+    if (user) {
       fetchMyOrders();
-    } */
+    }
     fetchMyOrders();
   }, [user]);
 
@@ -38,8 +36,12 @@ const MyOrders = () => {
           className="border border-gray-300 rounded-lg mb-10 p-4 py-5 max-w-4xl"
         >
           <p className="flex justify-between md:items-center text-gray-400 md:font-medium max-md:flex-col">
-            <span>{t("myOrders.orderId")} : {order._id}</span>
-            <span>{t("myOrders.payment")} : {order.paymentType}</span>
+            <span>
+              {t("myOrders.orderId")} : {order._id}
+            </span>
+            <span>
+              {t("myOrders.payment")} : {order.paymentType}
+            </span>
             <span>
               {t("myOrders.totalAmount")} : {currency}
               {order.amount}
@@ -64,14 +66,23 @@ const MyOrders = () => {
                   <h2 className="text-xl font-medium text-gray-800">
                     {item.product.name}
                   </h2>
-                  <p>{t("myOrders.category")}: {item.product.category}</p>
+                  <p>
+                    {t("myOrders.category")}: {item.product.category}
+                  </p>
                 </div>
               </div>
 
               <div className="flex flex-col justify-center md:ml-8 mb-4 md:mb-0">
-                <p>{t("myOrders.quantity")}: {item.quantity || "1"}</p>
-                <p>{t("myOrders.status")}: {order.status}</p>
-                <p>{t("myOrders.date")}: {new Date(order.createdAt).toLocaleDateString()}</p>
+                <p>
+                  {t("myOrders.quantity")}: {item.quantity || "1"}
+                </p>
+                <p>
+                  {t("myOrders.status")}: {order.status}
+                </p>
+                <p>
+                  {t("myOrders.date")}:{" "}
+                  {new Date(order.createdAt).toLocaleDateString()}
+                </p>
               </div>
               <p className="text-primary text-lg font-medium">
                 {t("myOrders.amount")}: {currency}
