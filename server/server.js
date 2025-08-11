@@ -18,7 +18,7 @@ await connectDB();
 await connectCloudinary();
 
 // Allow multiple origins
-const allowedOrigins = ["http://localhost:5173", "https://mur-add-backend.vercel.app/"];
+const allowedOrigins = ["http://localhost:5173", "https://mur-add-backend.vercel.app"];
 
 
 // Middleware configuration
