@@ -17,6 +17,7 @@ import delivery_truck_icon from "./delivery_truck_icon.svg";
 import leaf_icon from "./leaf_icon.svg";
 import coin_icon from "./coin_icon.svg";
 import box_icon from "./box_icon.svg";
+import categories_icon from "./categories.svg";
 import trust_icon from "./trust_icon.svg";
 import black_arrow_icon from "./black_arrow_icon.svg";
 import white_arrow_icon from "./white_arrow_icon.svg";
@@ -62,6 +63,7 @@ export const assets = {
   bottom_banner_image_sm,
   add_address_image,
   box_icon,
+  categories_icon,
   speaker_audio_system,
 };
 

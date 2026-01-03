@@ -21,7 +21,7 @@ const SellerLayout = () => {
     {
       name: t("sellerLayout.sidebar.categories"),
       path: "/seller/categories",
-      icon: assets.box_icon,
+      icon: assets.categories_icon,
     },
     {
       name: t("sellerLayout.sidebar.orders"),

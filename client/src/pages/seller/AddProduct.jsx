@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { assets, categories } from "../../assets/assets";
+import React, { useState, useEffect } from "react";
+import { assets } from "../../assets/assets";
 import { useAppContext } from "../../context/AppContext";
 import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
@@ -12,8 +12,33 @@ const AddProduct = () => {
   const [category, setCategory] = useState("");
   const [price, setPrice] = useState("");
   const [offerPrice, setOfferPrice] = useState("");
+  const [categories, setCategories] = useState([]);
+  const [loadingCategories, setLoadingCategories] = useState(true);
 
   const { axios } = useAppContext();
+
+  // Fetch categories from API
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        setLoadingCategories(true);
+        const { data } = await axios.get("/api/category");
+        if (data.success) {
+          setCategories(data.categories);
+        } else {
+          toast.error("Kategoriler yüklenemedi");
+          console.error("Failed to fetch categories:", data.message);
+        }
+      } catch (error) {
+        toast.error("Kategoriler yüklenirken hata oluştu");
+        console.error("Error fetching categories:", error);
+      } finally {
+        setLoadingCategories(false);
+      }
+    };
+
+    fetchCategories();
+  }, [axios]);
 
   const onSubmitHandler = async (event) => {
     try {
@@ -129,11 +154,14 @@ const AddProduct = () => {
             value={category}
             id="category"
             className="outline-none md:py-2.5 py-2 px-3 rounded border border-gray-500/40"
+            disabled={loadingCategories}
           >
-            <option value="">{t("addProduct.selectCategory")}</option>
-            {categories.map((item, index) => (
-              <option key={index} value={item.path}>
-                {item.path}
+            <option value="">
+              {loadingCategories ? "Kategoriler yükleniyor..." : t("addProduct.selectCategory")}
+            </option>
+            {categories.map((item) => (
+              <option key={item._id} value={item.path}>
+                {item.text}
               </option>
             ))}
           </select>
