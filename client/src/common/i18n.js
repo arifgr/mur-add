@@ -117,6 +117,7 @@ i18n
               addProduct: "Add Product",
               productList: "Product List",
               orders: "Orders",
+              categories: "Categories",
             },
             navbar: {
               hiAdmin: "Hi! Admin",
@@ -248,6 +249,7 @@ i18n
               addProduct: "Ürün Ekle",
               productList: "Ürün Listesi",
               orders: "Siparişler",
+              categories: "Kategoriler",
             },
             navbar: {
               hiAdmin: "Merhaba! Yönetici",
