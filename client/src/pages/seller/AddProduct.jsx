@@ -14,6 +14,14 @@ const AddProduct = () => {
   const [offerPrice, setOfferPrice] = useState("");
   const [categories, setCategories] = useState([]);
   const [loadingCategories, setLoadingCategories] = useState(true);
+  
+  // Car selection states
+  const [cars, setCars] = useState([]);
+  const [selectedBrand, setSelectedBrand] = useState("");
+  const [selectedModel, setSelectedModel] = useState("");
+  const [selectedYear, setSelectedYear] = useState("");
+  const [selectedCarId, setSelectedCarId] = useState("");
+  const [loadingCars, setLoadingCars] = useState(true);
 
   const { axios } = useAppContext();
 
@@ -40,6 +48,71 @@ const AddProduct = () => {
     fetchCategories();
   }, [axios]);
 
+  // Fetch cars from API
+  useEffect(() => {
+    const fetchCars = async () => {
+      try {
+        setLoadingCars(true);
+        const { data } = await axios.get("/api/car");
+        if (data.success) {
+          setCars(data.cars);
+        } else {
+          console.error("Failed to fetch cars:", data.message);
+        }
+      } catch (error) {
+        console.error("Error fetching cars:", error);
+      } finally {
+        setLoadingCars(false);
+      }
+    };
+
+    fetchCars();
+  }, [axios]);
+
+  // Get unique brands
+  const brands = [...new Set(cars.map(car => car.brand))].sort();
+
+  // Get models for selected brand
+  const models = selectedBrand
+    ? [...new Set(cars.filter(car => car.brand === selectedBrand).map(car => car.model))].sort()
+    : [];
+
+  // Get cars (with production years sets) for selected brand and model
+  const availableCars = selectedBrand && selectedModel
+    ? cars
+        .filter(car => car.brand === selectedBrand && car.model === selectedModel)
+        .sort((a, b) => Math.min(...a.productionYears) - Math.min(...b.productionYears))
+    : [];
+
+  // Handle brand change
+  const handleBrandChange = (e) => {
+    setSelectedBrand(e.target.value);
+    setSelectedModel("");
+    setSelectedYear("");
+    setSelectedCarId("");
+  };
+
+  // Handle model change
+  const handleModelChange = (e) => {
+    setSelectedModel(e.target.value);
+    setSelectedYear("");
+    setSelectedCarId("");
+  };
+
+  // Handle car selection (production years set)
+  const handleCarChange = (e) => {
+    const carId = e.target.value;
+    setSelectedCarId(carId);
+    if (carId) {
+      const car = cars.find(c => c._id === carId);
+      if (car) {
+        setSelectedYear(car.productionYears.join(", "));
+      }
+    } else {
+      setSelectedYear("");
+    }
+  };
+
   const onSubmitHandler = async (event) => {
     try {
       event.preventDefault();
@@ -50,6 +123,7 @@ const AddProduct = () => {
         category,
         price,
         offerPrice,
+        ...(selectedCarId && { car: selectedCarId }),
       };
 
       const formData = new FormData();
@@ -68,6 +142,10 @@ const AddProduct = () => {
         setPrice("");
         setOfferPrice("");
         setFiles([]);
+        setSelectedBrand("");
+        setSelectedModel("");
+        setSelectedYear("");
+        setSelectedCarId("");
       } else {
         toast.error(data.message);
       }
@@ -166,6 +244,67 @@ const AddProduct = () => {
             ))}
           </select>
         </div>
+        <div className="w-full flex flex-col gap-1">
+          <label className="text-base font-medium" htmlFor="brand">
+            Araç Markası (Opsiyonel)
+          </label>
+          <select
+            onChange={handleBrandChange}
+            value={selectedBrand}
+            id="brand"
+            className="outline-none md:py-2.5 py-2 px-3 rounded border border-gray-500/40"
+            disabled={loadingCars}
+          >
+            <option value="">
+              {loadingCars ? "Markalar yükleniyor..." : "Marka Seçin"}
+            </option>
+            {brands.map((brand) => (
+              <option key={brand} value={brand}>
+                {brand}
+              </option>
+            ))}
+          </select>
+        </div>
+        {selectedBrand && (
+          <div className="w-full flex flex-col gap-1">
+            <label className="text-base font-medium" htmlFor="model">
+              Araç Modeli
+            </label>
+            <select
+              onChange={handleModelChange}
+              value={selectedModel}
+              id="model"
+              className="outline-none md:py-2.5 py-2 px-3 rounded border border-gray-500/40"
+            >
+              <option value="">Model Seçin</option>
+              {models.map((model) => (
+                <option key={model} value={model}>
+                  {model}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
+        {selectedModel && (
+          <div className="w-full flex flex-col gap-1">
+            <label className="text-base font-medium" htmlFor="car">
+              Üretim Yılları
+            </label>
+            <select
+              onChange={handleCarChange}
+              value={selectedCarId}
+              id="car"
+              className="outline-none md:py-2.5 py-2 px-3 rounded border border-gray-500/40"
+            >
+              <option value="">Üretim Yılları Seçin</option>
+              {availableCars.map((car) => (
+                <option key={car._id} value={car._id}>
+                  {car.productionYears.sort((a, b) => a - b).join(", ")}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
         <div className="flex items-center gap-5 flex-wrap">
           <div className="flex-1 flex flex-col gap-1 w-32">
             <label className="text-base font-medium" htmlFor="product-price">

@@ -34,6 +34,7 @@ import headphones from "./8683410_headphones_music_multimedia_electronics_audio_
 import speaker_audio_system from "./11902097_speaker_audio_system_music_and_icon.png";
 import main_banner_bg from "./banner-horizontal.png";
 import main_banner_ver_bg from "./banner-vertical.png";
+import car_icon from "./car.svg";
 
 export const assets = {
   logo,
@@ -64,6 +65,7 @@ export const assets = {
   add_address_image,
   box_icon,
   categories_icon,
+  car_icon,
   speaker_audio_system,
 };
 
