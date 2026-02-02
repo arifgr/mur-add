@@ -29,7 +29,7 @@ export const addProduct = async (req, res) => {
 // Get Product : /api/product/list
 export const productList = async (req, res) => {
   try {
-    const products = await Product.find({});
+    const products = await Product.find({}).populate('car');
     res.json({ success: true, products });
   } catch (error) {
     console.log(error.message);
@@ -41,7 +41,7 @@ export const productList = async (req, res) => {
 export const productById = async (req, res) => {
   try {
     const { id } = req.body;
-    const product = await Product.findById(id);
+    const product = await Product.findById(id).populate('car');
     res.json({ success: true, product });
   } catch (error) {
     console.log(error.message);
