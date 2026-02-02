@@ -36,7 +36,10 @@ const ProductList = () => {
                 <th className="px-4 py-3 font-semibold truncate">
                   {t("sellerProductList.category")}
                 </th>
-                <th className="px-4 py-3 font-semibold truncate hidden md:block">
+                <th className="px-4 py-3 font-semibold truncate hidden md:table-cell">
+                  Araç
+                </th>
+                <th className="px-4 py-3 font-semibold truncate hidden lg:table-cell">
                   {t("sellerProductList.sellingPrice")}
                 </th>
                 <th className="px-4 py-3 font-semibold truncate">
@@ -60,7 +63,17 @@ const ProductList = () => {
                     </span>
                   </td>
                   <td className="px-4 py-3">{product.category}</td>
-                  <td className="px-4 py-3 max-sm:hidden">
+                  <td className="px-4 py-3 hidden md:table-cell">
+                    {product.car ? (
+                      <div className="text-xs">
+                        <div className="font-medium text-gray-900">{product.car.brand} {product.car.model}</div>
+                        <div className="text-gray-500">{product.car.productionYears?.sort((a, b) => a - b).join(", ")}</div>
+                      </div>
+                    ) : (
+                      <span className="text-gray-400">-</span>
+                    )}
+                  </td>
+                  <td className="px-4 py-3 hidden lg:table-cell">
                     {currency}
                     {product.offerPrice}
                   </td>
