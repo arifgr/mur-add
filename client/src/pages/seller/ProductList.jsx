@@ -22,7 +22,7 @@ const ProductList = () => {
   };
 
   const deleteProduct = async (id) => {
-    if (!confirm(t("sellerProductList.confirmDelete") || "Bu ürünü silmek istediğinize emin misiniz?")) {
+    if (!confirm(t("sellerProductList.confirmDelete"))) {
       return;
     }
     try {
@@ -58,7 +58,7 @@ const ProductList = () => {
                   {t("sellerProductList.category")}
                 </th>
                 <th className="px-4 py-3 font-semibold truncate hidden md:table-cell">
-                  Araç
+                  {t("sellerProductList.car")}
                 </th>
                 <th className="px-4 py-3 font-semibold truncate hidden lg:table-cell">
                   {t("sellerProductList.sellingPrice")}
@@ -67,7 +67,7 @@ const ProductList = () => {
                   {t("sellerProductList.inStock")}
                 </th>
                 <th className="px-4 py-3 font-semibold truncate">
-                  {t("sellerProductList.actions") || "İşlemler"}
+                  {t("sellerProductList.actions")}
                 </th>
               </tr>
             </thead>
@@ -121,13 +121,13 @@ const ProductList = () => {
                         onClick={() => openEditPage(product)}
                         className="px-3 py-1 bg-blue-500 text-white text-xs rounded hover:bg-blue-600 transition"
                       >
-                        {t("sellerProductList.edit") || "Düzenle"}
+                        {t("sellerProductList.edit")}
                       </button>
                       <button
                         onClick={() => deleteProduct(product._id)}
                         className="px-3 py-1 bg-red-500 text-white text-xs rounded hover:bg-red-600 transition"
                       >
-                        {t("sellerProductList.delete") || "Sil"}
+                        {t("sellerProductList.delete")}
                       </button>
                     </div>
                   </td>
