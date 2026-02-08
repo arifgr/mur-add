@@ -1,20 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import { useAppContext } from "../../context/AppContext";
 import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 
 const ProductList = () => {
   const { t } = useTranslation();
-  const { products, currency, axios, fetchProducts } = useAppContext();
-  const [editModal, setEditModal] = useState(false);
-  const [editingProduct, setEditingProduct] = useState(null);
-  const [formData, setFormData] = useState({
-    name: "",
-    description: [],
-    price: "",
-    offerPrice: "",
-    category: "",
-  });
+  const { products, currency, axios, fetchProducts, navigate } = useAppContext();
 
   const toggleStock = async (id, inStock) => {
     try {
@@ -47,37 +38,8 @@ const ProductList = () => {
     }
   };
 
-  const openEditModal = (product) => {
-    setEditingProduct(product);
-    setFormData({
-      name: product.name,
-      description: product.description,
-      price: product.price,
-      offerPrice: product.offerPrice,
-      category: product.category,
-    });
-    setEditModal(true);
-  };
-
-  const updateProduct = async (e) => {
-    e.preventDefault();
-    try {
-      const formDataToSend = new FormData();
-      formDataToSend.append("id", editingProduct._id);
-      formDataToSend.append("productData", JSON.stringify(formData));
-
-      const { data } = await axios.post("/api/product/update", formDataToSend);
-      if (data.success) {
-        fetchProducts();
-        toast.success(data.message);
-        setEditModal(false);
-        setEditingProduct(null);
-      } else {
-        toast.error(data.message);
-      }
-    } catch (error) {
-      toast.error(error.message);
-    }
+  const openEditPage = (product) => {
+    navigate("/seller", { state: { editProduct: product } });
   };
   return (
     <div className="no-scrollbar flex-1 h-[95vh] overflow-y-scroll flex flex-col justify-between">
@@ -156,7 +118,7 @@ const ProductList = () => {
                   <td className="px-4 py-3">
                     <div className="flex gap-2">
                       <button
-                        onClick={() => openEditModal(product)}
+                        onClick={() => openEditPage(product)}
                         className="px-3 py-1 bg-blue-500 text-white text-xs rounded hover:bg-blue-600 transition"
                       >
                         {t("sellerProductList.edit") || "Düzenle"}
@@ -175,119 +137,6 @@ const ProductList = () => {
           </table>
         </div>
       </div>
-
-      {/* Edit Modal */}
-      {editModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="p-6">
-              <div className="flex justify-between items-center mb-4">
-                <h2 className="text-xl font-semibold">
-                  {t("sellerProductList.editProduct") || "Ürünü Düzenle"}
-                </h2>
-                <button
-                  onClick={() => setEditModal(false)}
-                  className="text-gray-500 hover:text-gray-700 text-2xl"
-                >
-                  ×
-                </button>
-              </div>
-              <form onSubmit={updateProduct} className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium mb-1">
-                    {t("addProduct.productName") || "Ürün Adı"}
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.name}
-                    onChange={(e) =>
-                      setFormData({ ...formData, name: e.target.value })
-                    }
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                    required
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium mb-1">
-                    {t("addProduct.category") || "Kategori"}
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.category}
-                    onChange={(e) =>
-                      setFormData({ ...formData, category: e.target.value })
-                    }
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                    required
-                  />
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium mb-1">
-                      {t("addProduct.price") || "Fiyat"}
-                    </label>
-                    <input
-                      type="number"
-                      value={formData.price}
-                      onChange={(e) =>
-                        setFormData({ ...formData, price: e.target.value })
-                      }
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                      required
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium mb-1">
-                      {t("addProduct.offerPrice") || "İndirimli Fiyat"}
-                    </label>
-                    <input
-                      type="number"
-                      value={formData.offerPrice}
-                      onChange={(e) =>
-                        setFormData({ ...formData, offerPrice: e.target.value })
-                      }
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                      required
-                    />
-                  </div>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium mb-1">
-                    {t("addProduct.description") || "Açıklama"}
-                  </label>
-                  <textarea
-                    value={formData.description.join("\n")}
-                    onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        description: e.target.value.split("\n"),
-                      })
-                    }
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                    rows="4"
-                    placeholder="Her satıra bir özellik yazın"
-                  />
-                </div>
-                <div className="flex gap-3 justify-end">
-                  <button
-                    type="button"
-                    onClick={() => setEditModal(false)}
-                    className="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50"
-                  >
-                    {t("sellerProductList.cancel") || "İptal"}
-                  </button>
-                  <button
-                    type="submit"
-                    className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
-                  >
-                    {t("sellerProductList.save") || "Kaydet"}
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

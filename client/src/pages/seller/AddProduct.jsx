@@ -3,9 +3,14 @@ import { assets } from "../../assets/assets";
 import { useAppContext } from "../../context/AppContext";
 import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
+import { useLocation } from "react-router-dom";
 
 const AddProduct = () => {
   const { t } = useTranslation();
+  const location = useLocation();
+  const editProduct = location.state?.editProduct;
+  const isEditMode = !!editProduct;
+  
   const [files, setFiles] = useState([]);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -23,7 +28,7 @@ const AddProduct = () => {
   const [selectedCarId, setSelectedCarId] = useState("");
   const [loadingCars, setLoadingCars] = useState(true);
 
-  const { axios } = useAppContext();
+  const { axios, navigate } = useAppContext();
 
   // Fetch categories from API
   useEffect(() => {
@@ -68,6 +73,25 @@ const AddProduct = () => {
 
     fetchCars();
   }, [axios]);
+
+  // Load edit product data
+  useEffect(() => {
+    if (isEditMode && editProduct) {
+      setName(editProduct.name);
+      setDescription(editProduct.description.join("\n"));
+      setCategory(editProduct.category);
+      setPrice(editProduct.price.toString());
+      setOfferPrice(editProduct.offerPrice.toString());
+      
+      // Set car data if exists
+      if (editProduct.car) {
+        setSelectedCarId(editProduct.car._id);
+        setSelectedBrand(editProduct.car.brand);
+        setSelectedModel(editProduct.car.model);
+        setSelectedYear(editProduct.car.productionYears.join(", "));
+      }
+    }
+  }, [isEditMode, editProduct]);
 
   // Get unique brands
   const brands = [...new Set(cars.map(car => car.brand))].sort();
@@ -128,24 +152,34 @@ const AddProduct = () => {
 
       const formData = new FormData();
       formData.append("productData", JSON.stringify(productData));
+      
+      if (isEditMode) {
+        formData.append("id", editProduct._id);
+      }
+      
       for (let i = 0; i < files.length; i++) {
         formData.append("images", files[i]);
       }
 
-      const { data } = await axios.post("/api/product/add", formData);
+      const endpoint = isEditMode ? "/api/product/update" : "/api/product/add";
+      const { data } = await axios.post(endpoint, formData);
 
       if (data.success) {
         toast.success(data.message);
-        setName("");
-        setDescription("");
-        setCategory("");
-        setPrice("");
-        setOfferPrice("");
-        setFiles([]);
-        setSelectedBrand("");
-        setSelectedModel("");
-        setSelectedYear("");
-        setSelectedCarId("");
+        if (isEditMode) {
+          navigate("/seller/product-list");
+        } else {
+          setName("");
+          setDescription("");
+          setCategory("");
+          setPrice("");
+          setOfferPrice("");
+          setFiles([]);
+          setSelectedBrand("");
+          setSelectedModel("");
+          setSelectedYear("");
+          setSelectedCarId("");
+        }
       } else {
         toast.error(data.message);
       }
@@ -162,6 +196,19 @@ const AddProduct = () => {
       >
         <div>
           <p className="text-base font-medium">{t("addProduct.image")}</p>
+          {isEditMode && editProduct.image && (
+            <div className="flex flex-wrap items-center gap-3 mt-2 mb-3">
+              <p className="text-sm text-gray-600">{t("addProduct.currentImages")}</p>
+              {editProduct.image.map((img, idx) => (
+                <img
+                  key={idx}
+                  src={img}
+                  alt={`Product ${idx + 1}`}
+                  className="max-w-24 h-24 object-cover border rounded"
+                />
+              ))}
+            </div>
+          )}
           <div className="flex flex-wrap items-center gap-3 mt-2">
             {Array(4)
               .fill("")
@@ -192,6 +239,11 @@ const AddProduct = () => {
                 </label>
               ))}
           </div>
+          {isEditMode && (
+            <p className="text-xs text-gray-500 mt-2">
+              * {t("addProduct.imageUpdateNote")}
+            </p>
+          )}
         </div>
         <div className="flex flex-col gap-1 max-w-md">
           <label className="text-base font-medium" htmlFor="product-name">
@@ -335,9 +387,23 @@ const AddProduct = () => {
             />
           </div>
         </div>
-        <button className="px-8 py-2.5 bg-primary text-white font-medium rounded cursor-pointer">
-          {t("addProduct.add")}
-        </button>
+        <div className="flex gap-3">
+          <button 
+            type="submit"
+            className="px-8 py-2.5 bg-primary text-white font-medium rounded cursor-pointer"
+          >
+            {isEditMode ? t("addProduct.update") : t("addProduct.add")}
+          </button>
+          {isEditMode && (
+            <button 
+              type="button"
+              onClick={() => navigate("/seller/product-list")}
+              className="px-8 py-2.5 bg-gray-500 text-white font-medium rounded cursor-pointer"
+            >
+              {t("addProduct.cancel")}
+            </button>
+          )}
+        </div>
       </form>
     </div>
   );

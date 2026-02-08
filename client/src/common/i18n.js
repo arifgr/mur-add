@@ -111,6 +111,10 @@ i18n
             image: "Product Image",
             selectCategory: "Select Category",
             add: "Add",
+            update: "Update",
+            cancel: "Cancel",
+            currentImages: "Current Images:",
+            imageUpdateNote: "If you don't upload new images, current images will be preserved",
           },
           sellerLayout: {
             sidebar: {
@@ -276,6 +280,10 @@ i18n
             typeHere: "Buraya yazın",
             selectCategory: "Kategori Seçin",
             add: "Ekle",
+            update: "Güncelle",
+            cancel: "İptal",
+            currentImages: "Mevcut Resimler:",
+            imageUpdateNote: "Yeni resim yüklemezseniz mevcut resimler korunur",
           },
           sellerLayout: {
             sidebar: {
