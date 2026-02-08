@@ -60,3 +60,55 @@ export const changeStock = async (req, res) => {
     res.json({ success: false, message: error.message });
   }
 };
+
+// Update Product : /api/product/update
+export const updateProduct = async (req, res) => {
+  try {
+    const { id } = req.body;
+    let productData = JSON.parse(req.body.productData);
+
+    // Mevcut ürünü kontrol et
+    const existingProduct = await Product.findById(id);
+    if (!existingProduct) {
+      return res.json({ success: false, message: "Product not found" });
+    }
+
+    // Yeni resimler varsa ekle
+    if (req.files && req.files.length > 0) {
+      const images = req.files;
+      let imagesUrl = await Promise.all(
+        images.map(async (item) => {
+          let result = await cloudinary.uploader.upload(item.path, {
+            resource_type: "image",
+          });
+          return result.secure_url;
+        })
+      );
+      productData.image = imagesUrl;
+    }
+
+    await Product.findByIdAndUpdate(id, productData);
+    res.json({ success: true, message: "Product Updated" });
+  } catch (error) {
+    console.log(error.message);
+    res.json({ success: false, message: error.message });
+  }
+};
+
+// Delete Product : /api/product/delete
+export const deleteProduct = async (req, res) => {
+  try {
+    const { id } = req.body;
+    
+    const product = await Product.findById(id);
+    if (!product) {
+      return res.json({ success: false, message: "Product not found" });
+    }
+
+    await Product.findByIdAndDelete(id);
+    res.json({ success: true, message: "Product Deleted" });
+  } catch (error) {
+    console.log(error.message);
+    res.json({ success: false, message: error.message });
+  }
+};
