@@ -12,6 +12,7 @@ const AddProduct = () => {
   const isEditMode = !!editProduct;
   
   const [files, setFiles] = useState([]);
+  const [existingImages, setExistingImages] = useState([]); // Tutulacak mevcut resimler
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
@@ -83,6 +84,11 @@ const AddProduct = () => {
       setPrice(editProduct.price.toString());
       setOfferPrice(editProduct.offerPrice.toString());
       
+      // Set existing images
+      if (editProduct.image) {
+        setExistingImages(editProduct.image);
+      }
+      
       // Set car data if exists
       if (editProduct.car) {
         setSelectedCarId(editProduct.car._id);
@@ -137,6 +143,17 @@ const AddProduct = () => {
     }
   };
 
+  const removeExistingImage = (index) => {
+    const updated = existingImages.filter((_, i) => i !== index);
+    setExistingImages(updated);
+  };
+
+  const removeNewImage = (index) => {
+    const updated = [...files];
+    updated[index] = null;
+    setFiles(updated);
+  };
+
   const onSubmitHandler = async (event) => {
     try {
       event.preventDefault();
@@ -155,10 +172,15 @@ const AddProduct = () => {
       
       if (isEditMode) {
         formData.append("id", editProduct._id);
+        // Tutulacak mevcut resimleri gönder
+        formData.append("existingImages", JSON.stringify(existingImages));
       }
       
+      // Yeni resimleri ekle (null olmayanlar)
       for (let i = 0; i < files.length; i++) {
-        formData.append("images", files[i]);
+        if (files[i]) {
+          formData.append("images", files[i]);
+        }
       }
 
       const endpoint = isEditMode ? "/api/product/update" : "/api/product/add";
@@ -196,54 +218,77 @@ const AddProduct = () => {
       >
         <div>
           <p className="text-base font-medium">{t("addProduct.image")}</p>
-          {isEditMode && editProduct.image && (
-            <div className="flex flex-wrap items-center gap-3 mt-2 mb-3">
-              <p className="text-sm text-gray-600">{t("addProduct.currentImages")}</p>
-              {editProduct.image.map((img, idx) => (
-                <img
-                  key={idx}
-                  src={img}
-                  alt={`Product ${idx + 1}`}
-                  className="max-w-24 h-24 object-cover border rounded"
-                />
-              ))}
+          
+          {/* Mevcut Resimler */}
+          {isEditMode && existingImages.length > 0 && (
+            <div className="mt-3">
+              <p className="text-sm text-gray-600 mb-2">{t("addProduct.currentImages")}</p>
+              <div className="flex flex-wrap items-center gap-3">
+                {existingImages.map((img, idx) => (
+                  <div key={idx} className="relative group">
+                    <img
+                      src={img}
+                      alt={`Product ${idx + 1}`}
+                      className="max-w-24 h-24 object-cover border rounded"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => removeExistingImage(idx)}
+                      className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center hover:bg-red-600 transition"
+                    >
+                      ×
+                    </button>
+                  </div>
+                ))}
+              </div>
             </div>
           )}
-          <div className="flex flex-wrap items-center gap-3 mt-2">
-            {Array(4)
-              .fill("")
-              .map((_, index) => (
-                <label key={index} htmlFor={`image${index}`}>
-                  <input
-                    onChange={(e) => {
-                      const updatedFiles = [...files];
-                      updatedFiles[index] = e.target.files[0];
-                      setFiles(updatedFiles);
-                    }}
-                    type="file"
-                    id={`image${index}`}
-                    hidden
-                  />
+          
+          {/* Yeni Resim Ekleme */}
+          <div className="mt-3">
+            {isEditMode && <p className="text-sm text-gray-600 mb-2">{t("addProduct.addNewImages")}</p>}
+            <div className="flex flex-wrap items-center gap-3">
+              {Array(4)
+                .fill("")
+                .map((_, index) => (
+                  <div key={index} className="relative">
+                    <label htmlFor={`image${index}`}>
+                      <input
+                        onChange={(e) => {
+                          const updatedFiles = [...files];
+                          updatedFiles[index] = e.target.files[0];
+                          setFiles(updatedFiles);
+                        }}
+                        type="file"
+                        id={`image${index}`}
+                        hidden
+                      />
 
-                  <img
-                    className="max-w-24 cursor-pointer"
-                    src={
-                      files[index]
-                        ? URL.createObjectURL(files[index])
-                        : assets.upload_area
-                    }
-                    alt="uploadArea"
-                    width={100}
-                    height={100}
-                  />
-                </label>
-              ))}
+                      <img
+                        className="max-w-24 cursor-pointer"
+                        src={
+                          files[index]
+                            ? URL.createObjectURL(files[index])
+                            : assets.upload_area
+                        }
+                        alt="uploadArea"
+                        width={100}
+                        height={100}
+                      />
+                    </label>
+                    {files[index] && (
+                      <button
+                        type="button"
+                        onClick={() => removeNewImage(index)}
+                        className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center hover:bg-red-600 transition"
+                      >
+                        ×
+                      </button>
+                    )}
+                  </div>
+                ))}
+            </div>
           </div>
-          {isEditMode && (
-            <p className="text-xs text-gray-500 mt-2">
-              * {t("addProduct.imageUpdateNote")}
-            </p>
-          )}
         </div>
         <div className="flex flex-col gap-1 max-w-md">
           <label className="text-base font-medium" htmlFor="product-name">

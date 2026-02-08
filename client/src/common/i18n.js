@@ -114,6 +114,7 @@ i18n
             update: "Update",
             cancel: "Cancel",
             currentImages: "Current Images:",
+            addNewImages: "Add New Images",
             imageUpdateNote: "If you don't upload new images, current images will be preserved",
           },
           sellerLayout: {
@@ -283,6 +284,7 @@ i18n
             update: "Güncelle",
             cancel: "İptal",
             currentImages: "Mevcut Resimler:",
+            addNewImages: "Yeni Resim Ekle",
             imageUpdateNote: "Yeni resim yüklemezseniz mevcut resimler korunur",
           },
           sellerLayout: {
